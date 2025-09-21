@@ -1,19 +1,16 @@
+// src/services/githubService.js
 import axios from "axios";
 
-// Base URL for GitHub API
-const BASE_URL = "https://api.github.com/users";
+// Advanced search users
+export const fetchAdvancedUsers = async (username, location, minRepos) => {
+  let query = "";
 
-/**
- * Fetch user data from GitHub API by username
- * @param {string} username - GitHub username to search for
- * @returns {Promise<Object>} - User data
- */
-export const fetchUserData = async (username) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/${username}`);
-    return response.data;
-  } catch (error) {
-    // Throw error so the component can handle it (show message)
-    throw new Error("User not found");
-  }
+  if (username) query += `${username} in:login `;
+  if (location) query += `location:${location} `;
+  if (minRepos) query += `repos:>=${minRepos}`;
+
+  const url = `https://api.github.com/search/users?q=${encodeURIComponent(query)}`;
+
+  const response = await axios.get(url);
+  return response.data.items || [];
 };
