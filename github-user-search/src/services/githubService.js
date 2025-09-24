@@ -12,7 +12,7 @@ export const fetchUserData = async (username) => {
   }
 };
 
-// 🔹 Advanced search users
+// 🔹 Advanced: Search multiple users with filters
 export const fetchAdvancedUsers = async (username, location, minRepos) => {
   let query = "";
 
